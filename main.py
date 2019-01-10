@@ -37,7 +37,7 @@ with open("config.json") as config_json:
             #resize to fit 64x64x64 box.
             #TODO - I should resize it while retaining the overall shape. resize
             #would just stretch/shrink to fit the box in all axes
-            resized_data = skimage.transform.resize(cropped_data, input_shape, anti_aliasing=True)
+            resized_data = skimage.transform.resize(cropped_data, input_shape, anti_aliasing=True, mode='refles')
             images.append(resized_data)
             images_class.append(file)
 
