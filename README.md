@@ -1,4 +1,4 @@
-# mask to conv3d activation
+# Shape Signature
 
 This App takes tract masks and convert them to series of numerical values that chracaterizes each masks. 
 
@@ -27,6 +27,8 @@ Soichi Hayashi <hayashis@iu.edu>
 
 The model used to train the network can accurately classify each tracts at near 100% accuracy, but we discard the layer below the flatten layer as we are not interested in classifiying tracts - we use the train model to extract activation output from conv3d kernels.
 
+
+```
 Layer (type)                 Output Shape              Param #   
 =================================================================
 conv3d (Conv3D)              (None, 60, 60, 60, 8)     1008      
@@ -58,6 +60,9 @@ dense_1 (Dense)              (None, 72)                10440
 Total params: 352,904
 Trainable params: 352,840
 Non-trainable params: 64
+
+```
+
 
 ```
 5235/5235 [==============================] - 71s 14ms/step - loss: 0.0098 - acc: 0.3727 - val_loss: 0.0045 - val_acc: 0.7815
