@@ -4,15 +4,12 @@ from __future__ import absolute_import, division, print_function
 
 import tensorflow as tf
 from tensorflow.keras import layers
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import ZeroPadding3D, Conv3D, MaxPooling3D, BatchNormalization
 import numpy as np
 import nibabel
 import os
-import sys
-import matplotlib.pyplot as plt
-import matplotlib
 import skimage
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.keras.layers import ZeroPadding3D, Conv3D, MaxPooling3D, BatchNormalization
 import h5py
 import json
 
