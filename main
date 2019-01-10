@@ -4,4 +4,4 @@
 #PBS -N shapesig
 #PBS -V
 
-singularity exec -e docker://brainlife/tensorflow:1.12.0 ./main.py
+SINGULARITYENV_PYTHONNOUSERSITE=true singularity exec -e docker://brainlife/tensorflow:1.12.0 ./main.py
