@@ -4,9 +4,4 @@
 #PBS -N shapesig
 #PBS -V
 
-#for carbonate
-module unload python
-module load tensorflow
-
-#time singularity exec -e docker://brainlife/tensorflow:N ./main.py
-./main.py
+singularity exec -e docker://brainlife/tensorflow:1.12.0 ./main.py

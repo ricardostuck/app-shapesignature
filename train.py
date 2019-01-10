@@ -9,7 +9,6 @@ import nibabel
 import os
 import sys
 import matplotlib.pyplot as plt
-import skimage
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import ZeroPadding3D, Conv3D, MaxPooling3D, BatchNormalization
 import h5py
