@@ -15,8 +15,42 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import ZeroPadding3D, Conv3D, MaxPooling3D, BatchNormalization
 import h5py
 
+print("loading model")
 model = tf.keras.models.load_model('fitmodel.h5')
 model.summary()
+
+print("loading testdata")
+img = nibabel.load("testdata/113922/masks/CC_5.nii.gz")
+data = img.get_fdata()
+
+print("prepping data")
+bounds = np.sort(np.vstack(np.nonzero(data)))[:, [0, -1]]
+x, y, z = bounds
+cropped_data = data[x[0]:x[1], y[0]:y[1], z[0]:z[1]]
+input_shape = (64,64,64,1)
+resized_data = skimage.transform.resize(cropped_data, input_shape, anti_aliasing=True)
+print(resized_data.shape)
+
+#create x
+x = np.array([resized_data])
+class_names = os.listdir("testdata/113922/masks")
+
+#run predict
+y = model.predict(x)
+for i in range(0, len(y[0])):
+	score = y[0][i]
+	if score < 0.001:
+		score = 0
+	print(score, class_names[i])
+
+#from keras import backend as K
+#def get_activations(model, layer, X_batch):
+#    get_activations = K.function([model.layers[0].input, K.learning_phase()], model.layers[layer].output)
+#    return get_activations([X_batch,0])
+
+int_model = tf.keras.Model(inputs=model.input, outputs=model.get_layer('flatten').output)
+y = int_model.predict(x)
+print(y[0])
 
 #print(model.get_config())
 #print(model.layers[0].get_config())

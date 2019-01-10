@@ -21,16 +21,24 @@ for id in ids:
 	continue	
 
     #each subject has 72 images
-    if len(images) > 72*100:
+    if len(images) > len(class_names)*100:
 	print("loaded enough input")
         break 
 
     for file in os.listdir("/home/hayashis/data/shapes/"+id+"/masks"):
+
         
         print("reading", len(images), id, file)
         img = nibabel.load("/home/hayashis/data/shapes/"+id+"/masks/"+file)
-        
         data = img.get_fdata()
+
+	#TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
+	#label OR as T_OCC..#TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
+	#label OR as T_OCC..
+	if file == "OR_left.nii.gz":
+		file = "T_OCC_left.nii.gz"
+	if file == "OR_right.nii.gz":
+		file="T_OCC_right.nii.gz"
         
         #find binding box that contains mask and crop
         bounds = np.sort(np.vstack(np.nonzero(data)))[:, [0, -1]]
@@ -58,8 +66,6 @@ for id in ids:
 x = np.array(images)
 y = tf.keras.utils.to_categorical(images_class, len(class_names))
 
-#TODO - I should randomize 
-  
 with h5py.File('/home/hayashis/data/shapes.h5', 'w') as f:
  	f.create_dataset('x', data=x)
  	f.create_dataset('y', data=y)

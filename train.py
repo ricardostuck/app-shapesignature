@@ -27,33 +27,39 @@ input_shape = f['input_shape'][:]
     
 #split input into training and test
 #TODO - I should randomize this
-split=int(len(x)*0.2)
-x_test = x[0:split]
-y_test = y[0:split]
-x_train = x[split:]
-y_train = y[split:]
+#split=int(len(x)*0.2)
+#x_test = x[0:split]
+#y_test = y[0:split]
+#x_train = x[split:]
+#y_train = y[split:]
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.1,random_state=0)
+
 print(["x_train", x_train.shape, "y_train", y_train.shape])
 print(["x_test", x_test.shape, "y_test", y_test.shape])
+print(["class_name.shape",class_names.shape])
+
+class_size = len(class_names)
     
 #build model
 model = tf.keras.models.Sequential()
 
 model.add(Conv3D(8,kernel_size=5,activation='relu',input_shape=input_shape))
-model.add(Conv3D(16,kernel_size=4,activation='relu'))
-model.add(MaxPooling3D(pool_size=3))
-model.add(Dropout(0.25))
+model.add(Conv3D(16,kernel_size=5,activation='relu'))
+model.add(MaxPooling3D(pool_size=4))
+model.add(Dropout(0.3))
 
-model.add(Conv3D(32,kernel_size=3,activation='relu'))
+model.add(Conv3D(16,kernel_size=4,activation='relu'))
 model.add(Conv3D(32,kernel_size=3,activation='relu'))
 model.add(MaxPooling3D(pool_size=2))
-model.add(Dropout(0.25))
+model.add(Dropout(0.3))
 
 model.add(BatchNormalization())
 model.add(Flatten())
 
-#model.add(Dense(72*4, activation='relu'))
+#model.add(Dense(class_size*4, activation='relu', name='dense1'))
 #model.add(Dropout(0.4))
-model.add(Dense(72*2, activation='relu'))
+model.add(Dense(class_size*2, activation='relu'))
 model.add(Dropout(0.4))
 model.add(Dense(len(class_names), activation='softmax'))
 
@@ -61,7 +67,6 @@ model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
 model.summary()
 
 print("fitting")
-#model.fit(x_train, y_train, batch_size=32, epochs=10, verbose=1, validation_data=(x_test, y_test))
 model.fit(x_train, y_train, batch_size=64, epochs=8, verbose=1, validation_split=0.2)
 model.save('fitmodel.h5')
 
