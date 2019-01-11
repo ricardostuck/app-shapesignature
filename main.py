@@ -54,3 +54,5 @@ with open("config.json") as config_json:
     with open("signature.json", "w") as f:
         json.dump(out, f)
 
+print("all done!")
+
