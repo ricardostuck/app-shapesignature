@@ -13,10 +13,6 @@ import skimage
 import h5py
 import json
 
-print("loading model")
-model = tf.keras.models.load_model('fitmodel.h5')
-model.summary()
-
 with open("config.json") as config_json:
     config = json.load(config_json)
 
@@ -41,14 +37,16 @@ with open("config.json") as config_json:
             images.append(resized_data)
             images_class.append(file)
 
+    print("loading model")
+    model = tf.keras.models.load_model('fitmodel.h5')
+    model.summary()
+
     #predict using model all the way to flatten
     print("predicting")
     int_model = tf.keras.Model(inputs=model.input, outputs=model.get_layer('flatten').output)
     x = np.array(images)
     y = int_model.predict(x)
 
-
-    #store to json
     print("outputting signature.json")
     out = {}
     for i in range(0, len(y)):
