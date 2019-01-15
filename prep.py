@@ -17,28 +17,28 @@ images_class = []
 input_shape = (64,64,64,1)
 
 for id in ids:
+    #only load if it looks like mongo id
     if len(id) != 24:
-	continue	
+        continue	
 
-    #each subject has 72 images
-    if len(images) > len(class_names)*100:
-	print("loaded enough input")
+    #load 200 subjects
+    if len(images) > len(class_names)*200:
+        print("loaded enough input")
         break 
 
     for file in os.listdir("/home/hayashis/data/shapes/"+id+"/masks"):
 
-        
         print("reading", len(images), id, file)
         img = nibabel.load("/home/hayashis/data/shapes/"+id+"/masks/"+file)
         data = img.get_fdata()
 
-	#TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
-	#label OR as T_OCC..#TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
-	#label OR as T_OCC..
-	if file == "OR_left.nii.gz":
-		file = "T_OCC_left.nii.gz"
-	if file == "OR_right.nii.gz":
-		file="T_OCC_right.nii.gz"
+        #TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
+        #label OR as T_OCC..#TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
+        #label OR as T_OCC..
+        if file == "OR_left.nii.gz":
+            file = "T_OCC_left.nii.gz"
+        if file == "OR_right.nii.gz":
+            file="T_OCC_right.nii.gz"
         
         #find binding box that contains mask and crop
         bounds = np.sort(np.vstack(np.nonzero(data)))[:, [0, -1]]

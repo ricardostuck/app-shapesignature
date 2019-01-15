@@ -49,17 +49,15 @@ model.add(MaxPooling3D(pool_size=4))
 model.add(Dropout(0.3))
 
 model.add(Conv3D(16,kernel_size=4,activation='relu'))
-model.add(Conv3D(32,kernel_size=3,activation='relu'))
-model.add(MaxPooling3D(pool_size=2))
+model.add(Conv3D(16,kernel_size=4,activation='relu'))
+model.add(MaxPooling3D(pool_size=3))
 model.add(Dropout(0.3))
 
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(Flatten())
 
-#model.add(Dense(class_size*4, activation='relu', name='dense1'))
+#model.add(Dense(class_size, activation='relu'))
 #model.add(Dropout(0.4))
-model.add(Dense(class_size*2, activation='relu'))
-model.add(Dropout(0.4))
 model.add(Dense(len(class_names), activation='softmax'))
 
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])

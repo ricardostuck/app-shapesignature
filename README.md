@@ -13,7 +13,7 @@ This App will take Brainlife's neuro/tractmasks as input and generate `signature
 
 ```
 
-Each tract will have values equals to the size of flatten layer output which is currently set to 2048.
+Each tract will have values equals to the size of flatten layer output which is currently set to 128.
 
 ## Author
 
@@ -25,6 +25,7 @@ The classification model was trained using TractSeg outputs from roughtly 100 su
 
 
 ```
+_________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
 conv3d (Conv3D)              (None, 60, 60, 60, 8)     1008      
@@ -37,25 +38,20 @@ dropout (Dropout)            (None, 14, 14, 14, 16)    0
 _________________________________________________________________
 conv3d_2 (Conv3D)            (None, 11, 11, 11, 16)    16400     
 _________________________________________________________________
-conv3d_3 (Conv3D)            (None, 9, 9, 9, 32)       13856     
+conv3d_3 (Conv3D)            (None, 8, 8, 8, 16)       16400     
 _________________________________________________________________
-max_pooling3d_1 (MaxPooling3 (None, 4, 4, 4, 32)       0         
+max_pooling3d_1 (MaxPooling3 (None, 2, 2, 2, 16)       0         
 _________________________________________________________________
-dropout_1 (Dropout)          (None, 4, 4, 4, 32)       0         
+dropout_1 (Dropout)          (None, 2, 2, 2, 16)       0         
 _________________________________________________________________
-batch_normalization (BatchNo (None, 4, 4, 4, 32)       128       
+flatten (Flatten)            (None, 128)               0         
 _________________________________________________________________
-flatten (Flatten)            (None, 2048)              0         
-_________________________________________________________________
-dense (Dense)                (None, 144)               295056    
-_________________________________________________________________
-dropout_2 (Dropout)          (None, 144)               0         
-_________________________________________________________________
-dense_1 (Dense)              (None, 72)                10440     
+dense (Dense)                (None, 72)                9288      
 =================================================================
-Total params: 352,904
-Trainable params: 352,840
-Non-trainable params: 64
+Total params: 59,112
+Trainable params: 59,112
+Non-trainable params: 0
+_________________________________________________________________
 
 ```
 
@@ -84,3 +80,4 @@ Test loss: 7.794678107513892e-05
 Test accuracy: 0.9958791208791209
 
 ```
+

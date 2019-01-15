@@ -42,20 +42,19 @@ model.summary()
 #print('Test loss:', score[0])
 #print('Test accuracy:', score[1])
 
-print("predictging")
+print("predicting x_test")
 y_pred = model.predict(x_test)
 print(y_test.shape)
 print(np.argmax(y_test, axis=1).shape)
-#print(y_pred.shape)
-#confusion_matrix(y_test, y_pred)
-#accuracy_score(y_test, y_pred)
-#
+
 #from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(np.argmax(y_test, axis=1), np.argmax(y_pred, axis=1))
-print(len(class_names))
-for i in range(0, len(class_names)):
-	print(i, class_names[i], cm[i][i])
+print(y_test.shape);
+print(y_pred.shape);
+print(cm.shape);
+#for i in range(0, len(class_names)):
+#	print(i, class_names[i], cm[i][i])
 plt.figure()
 plt.matshow(cm)
 plt.show()
