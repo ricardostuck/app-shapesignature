@@ -1,4 +1,10 @@
-# Shape Signature
+# 3D-CNN Shape Signature
+
+This App takes tract masks and convert them to series of numerical values that chracaterizes each masks. The numerical values are generated from the flattened output of 3D convolutional layers of the model trained to classify tract names. Output values could be used as a "shape signature" used to compared against other similar shaped tracts.
+
+## Method
+
+We ran [TractSeg](https://github.com/MIC-DKFZ/TractSeg) on HCP3T subjects and generated 3D mask images of 78 individual tracts for each subject. We then trained a 3D convolutional model to predict the name(label) of each tracts. We've designed the model so that it has a small bottleneck (128nodes) between Conv3D and dense network. The model was able to predict at near 100% accuracy. This means that those 128 nodes at the bottleneck contains enough information to accurately distinguish various human tract shapes. The dense layer part of the model is then discarded so that the model will output those 128 values from a given tract masks. These values could then be used to numerically describe the shape of input tract.
 
 ## Output
 

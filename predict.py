@@ -20,7 +20,16 @@ model = tf.keras.models.load_model('fitmodel.h5')
 model.summary()
 
 print("loading testdata")
-img = nibabel.load("testdata/113922/masks/CC_5.nii.gz")
+#img = nibabel.load("testdata/113922/masks/CC_4.nii.gz") #correct
+#img = nibabel.load("testdata/113922/masks/MLF_left.nii.gz") #correct
+
+#these don't give good output.. maybe tractseg doesn't output?
+#img = nibabel.load("/home/hayashis/tmp/Right_VOF_Vol.nii.gz")
+#img = nibabel.load("/home/hayashis/tmp/Left_pArc_Vol.nii.gz")
+
+#img = nibabel.load("/home/hayashis/tmp/Right_MdLF-SPL_Vol.nii.gz") #outputs as ILF_left.nii.gz !!!!!
+#img = nibabel.load("/home/hayashis/tmp/Left_MdLF-SPL_Vol.nii.gz") #correct
+img = nibabel.load("/home/hayashis/tmp/Right_TPC_Vol.nii.gz") #65% T_PREM_right.nii.gz
 data = img.get_fdata()
 
 print("prepping data")
