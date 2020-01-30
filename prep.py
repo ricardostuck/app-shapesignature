@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import numpy as np
 import nibabel
 import os
 import sys
-import skimage
+from skimage import transform
 import h5py
 import tensorflow as tf
 
-class_names = os.listdir("/home/hayashis/data/shapes/5bc50099d785d7004357d360/masks")
-ids = os.listdir("/home/hayashis/data/shapes")
+class_names = os.listdir("/media/data/hayashis/shapes/5bc50099d785d7004357d360/masks")
+ids = os.listdir("/media/data/hayashis/shapes")
 
 #slices to show for quick check
 images = []
@@ -26,10 +26,10 @@ for id in ids:
         print("loaded enough input")
         break 
 
-    for file in os.listdir("/home/hayashis/data/shapes/"+id+"/masks"):
+    for file in os.listdir("/media/data/hayashis/shapes/"+id+"/masks"):
 
         print("reading", len(images), id, file)
-        img = nibabel.load("/home/hayashis/data/shapes/"+id+"/masks/"+file)
+        img = nibabel.load("/media/data/hayashis/shapes/"+id+"/masks/"+file)
         data = img.get_fdata()
 
         #TractSeg seems to generate near identical tractmask for OR and T_OCC. Let's cheat and 
@@ -49,7 +49,7 @@ for id in ids:
         #resize to fit 64x64x64 box.
         #TODO - I should resize it while retaining the overall shape. resize
         #would just stretch/shrink to fit the box in all axes
-        resized_data = skimage.transform.resize(cropped_data, input_shape, anti_aliasing=True)
+        resized_data = transform.resize(cropped_data, input_shape, anti_aliasing=True)
         
         #TODO - normalize?
         print(resized_data.shape)
@@ -66,10 +66,9 @@ for id in ids:
 x = np.array(images)
 y = tf.keras.utils.to_categorical(images_class, len(class_names))
 
-with h5py.File('/home/hayashis/data/shapes.h5', 'w') as f:
+with h5py.File('/media/data/hayashis/shapes.h5', 'w') as f:
  	f.create_dataset('x', data=x)
  	f.create_dataset('y', data=y)
- 	f.create_dataset('class_names', data=class_names)
+ 	f.create_dataset('class_names', data=np.string_(class_names))
  	f.create_dataset('input_shape', data=input_shape)
- 	#f.create_dataset('classes', images_classes, dtype='s')
 
