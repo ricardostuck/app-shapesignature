@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import absolute_import, division, print_function
 
@@ -12,13 +12,14 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import ZeroPadding3D, Conv3D, MaxPooling3D, BatchNormalization
 import h5py
+from sklearn.model_selection import train_test_split
 
 #if not tf.executing_eagerly():
 #    tf.enable_eager_execution()
 #    print("executing eagerly")
 
 print("loading shapes.h5")
-f = h5py.File('/home/hayashis/data/shapes.h5', 'r')
+f = h5py.File('/media/data/hayashis/shapes.h5', 'r')
 x = f['x'][:]
 y = f['y'][:]
 class_names = f['class_names'][:]
@@ -31,7 +32,6 @@ input_shape = f['input_shape'][:]
 #y_test = y[0:split]
 #x_train = x[split:]
 #y_train = y[split:]
-from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.1,random_state=0)
 
 print(["x_train", x_train.shape, "y_train", y_train.shape])
