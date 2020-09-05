@@ -8,7 +8,7 @@ We ran [TractSeg](https://github.com/MIC-DKFZ/TractSeg) on HCP3T subjects and ge
 
 ## Output
 
-This App will take Brainlife's neuro/tractmasks as input and generate `signature.json` with soemthing like the following content
+This App will take Brainlife's neuro/tractmasks as input and generate `signature.json` with something like the following content
 
 ```
 {
